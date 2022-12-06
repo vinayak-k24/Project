@@ -237,26 +237,6 @@ function EventRegistration () {
                             console.log(data);
                         })
                         .catch(err=>console.log(err));
-
-            //                 if(data.message==="Authentication has been successful")
-            //                 {
-            //                     console.log(data.token);
-            //                     localStorage.setItem('token',data.token);
-                                
-            //                     window.location.href = "/";
-            //                 }    
-            //                 else if(data.message==="Already Logged In"){
-            //                     window.location.href = "/";
-            //                 }
-            //                 else{
-            //                     localStorage.removeItem('token');
-            //                     setAuthMessage(data.message);
-            //                 }
-            //             })
-            //             .catch(err=>{
-            //                 throw err;
-            //             })
-            // }
         }
     }
     const navigate=useNavigate();

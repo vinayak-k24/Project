@@ -17,7 +17,6 @@ import Logout from './component/logout';
 import Signup from './component/signup';
 import EventRegistration from './component/eventRegistration';
 import Navbar from './component/navbar';
-import { decodeToken, isExpired } from 'react-jwt';
 
 // import "https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js";
 // import "./assets/js/vanilla-zoom.js";
@@ -30,14 +29,6 @@ constructor(props){
   super(props);
   console.log("Hello World");
 }
-
-  
-auth() {
-  
-}
-
-    
-  
   
 render() {
 	return (

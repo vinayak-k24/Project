@@ -114,8 +114,8 @@ app.post("/register",(req,res,next)=>{
                         //     port: 587,
                         //     secure: false, // true for 465, false for other ports
                         //     auth: {
-                        //       user: "01fe20bcs108@kletech.ac.in", // generated ethereal user
-                        //       pass: "Swaroop@2001", // generated ethereal password
+                        //       user: "", 
+                        //       pass: "", 
                         //     },
                         //   });
           
@@ -151,7 +151,7 @@ app.get("/upcomingEvents",(req,res,next)=>{
                 res.status(200).json({message:"Success",data:data});
             }
             else{
-                res.status(400).json({message:"No Upcoming Events",data:data});
+                res.status(200).json({message:"No Upcoming Events",data:data});
             }
         })
 })
@@ -165,7 +165,7 @@ app.get("/previousEvents",(req,res,next)=>{
                 res.status(200).json({message:"Success",data:data});
             }
             else{
-                res.status(400).json({message:"No Upcoming Events"});
+                res.status(200).json({message:"No Upcoming Events"});
             }
         })
 })
@@ -202,19 +202,6 @@ app.post("/bookEvent",upload.single("images"),(req,res)=>{
             res.status(200).json( {message: "Success"} );
         
     })
-
-    // const date1=[];
-    // date1.push(...req.body.fromDateTime.split(" ")[0].split("/").map(Number));
-    // date1.push(...req.body.fromDateTime.split(" ")[1].split(":").map(Number));
-    // const date2=[];
-    // date2.push(...req.body.toDateTime.split(" ")[0].split("/").map(Number));
-    // date2.push(...req.body.toDateTime.split(" ")[1].split(":").map(Number));
-    
-  
-    
-
-    
-
 
 app.get("/eventInfo/:id",(req,res,next)=>{
     const objid=new ObjectID(req.params.id);
