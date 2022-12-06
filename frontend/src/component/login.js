@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import validator from "validator";
 import "./login.css";
-import {decodeToken,isExpired} from "react-jwt";
+import {
+    MDBBtn,
+    MDBContainer,
+    MDBCard,
+    MDBCardBody,
+    MDBCardImage,
+    MDBRow,
+    MDBCol,
+    MDBIcon,
+    MDBInput
+  }
+from 'mdb-react-ui-kit';
 import { useNavigate } from "react-router-dom";
 import authService from '../services/auth.service';
 function Login (){
@@ -15,11 +26,11 @@ function Login (){
     const [authMessage,setAuthMessage]=useState("");
 
     const handleEmailInputChange=(event)=>{
-        setValues({...values,email:event.target.value})
+        setValues(values=>({...values,email:event.target.value}))
     }
 
     const handlePasswordInputChange=(event)=>{
-        setValues({...values,pasword:event.target.value})
+        setValues(values=>({...values,pasword:event.target.value}))
     }
 
     const submitDeatils= (event)=>{
@@ -73,7 +84,61 @@ function Login (){
 
 	return(
         
-        <><link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css"></link>
+        <>
+
+
+            <>  <MDBContainer className="my-5">
+                
+                <MDBCard>
+                <MDBRow className='g-0'>
+
+                    <MDBCol md='6'>
+                    <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp' alt="login form" className='rounded-start w-100'/>
+                    </MDBCol>
+
+                    <MDBCol md='6'>
+                    <MDBCardBody className='d-flex flex-column'></MDBCardBody>
+                    <div className='d-flex flex-row mt-2'>
+                        <MDBIcon fas icon="cubes fa-3x me-3" style={{ color: '#ff6219' }}/>
+                        <span className="h1 fw-bold mb-0">Logo</span>
+                        </div>
+
+
+                    <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg" onChange={handleEmailInputChange}  value={values.email}/>
+                    <span className="mb-4">{emailError}</span>
+                    <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" onChange={handlePasswordInputChange}  value={values.pasword}/>
+                    <span className="mb-4">{passwordError}</span>
+
+                    <button className="mb-4 px-5" color='dark' size='lg' onClick={submitDeatils}>Login</button>
+                    <a className="small text-muted" href="#!">Forgot password?</a>
+                    <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Don't have an account? <a href="#!" style={{color: '#393f81'}}>Register here</a></p>
+
+                    <div className='d-flex flex-row justify-content-start'>
+                    <a href="#!" className="small text-muted me-1">Terms of use.</a>
+                    <a href="#!" className="small text-muted">Privacy policy</a>
+                    </div>
+                </MDBCol>
+
+                </MDBRow>
+                </MDBCard>
+
+            </MDBContainer>
+      
+
+                {/* <form className="text-center" onClick={submitDeatils}>
+                                            <div className="mb-3"><input className="form-control" type="email" name="email" onChange={handleEmailInputChange}  value={values.email} />
+                                            <span className="mb-3">{emailError}</span> </div>
+                                            <div className="mb-3"><input className="form-control" type="password" name="password" onChange={handlePasswordInputChange}  value={values.pasword} />
+                                            <span className="mb-3">{passwordError}</span></div>
+                                            <div className="mb-3"><button className="btn btn-primary d-block w-100" type="submit">Login</button></div>
+                                            <p className="text-muted">Forgot your password?</p>
+                                            <p>{authMessage}</p>
+                </form> */}
+                
+                </>
+        
+        
+            {/* <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css"></link>
         
             <div className="container">
                 <div className="row mb-5"></div>
@@ -101,8 +166,9 @@ function Login (){
                         </div>
                     </div>
                 </div>
-            
-        </div></>
+             */}
+        {/* </div> */}
+        </>
     );
 }
 

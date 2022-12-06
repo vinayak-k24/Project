@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 // import { Route,Link } from "react-router-dom";
 // import EventInfo from './eventInfo';
 
 import "./dashboard.css";
 import authService from '../services/auth.service';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 function OrganizerDashboard () {
 
   useEffect(()=>{

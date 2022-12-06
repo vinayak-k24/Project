@@ -96,45 +96,52 @@ app.post("/register",(req,res,next)=>{
           bcrypt.hash(req.body.password, 10, (error, hash) => {
             if (error) res.status(500).json({ error });
             else {
-                const user=new userDb({
-                    name:req.body.name,
-                    email:req.body.email,
-                    password:hash,
-                    gender:req.body.gender,
-                    usn:req.body.usn,
-                    phoneNumber:req.body.phoneNumber,
-                    semester:req.body.semester,
-                    department:req.body.department
-                });
-                user.save(user)
-                    .then(response=>{
-                        console.log("saved");
-                        // let transporter = nodemailer.createTransport({
-                        //     service: "gmail",
-                        //     port: 587,
-                        //     secure: false, // true for 465, false for other ports
-                        //     auth: {
-                        //       user: "", 
-                        //       pass: "", 
-                        //     },
-                        //   });
-          
-                        //   transporter
-                        //     .sendMail({
-                        //       from: "01fe20bcs108@kletech.ac.in",
-                        //       to: `${req.body.email}`,
-                        //       subject: "Welcome to iCinema",
-                        //       text: `Hello Dear ${req.body.email}`,
-                        //       html: `<b>Hello Dear User, we are happy that you join our family. Kind Regards, iCinema Team.</b>`,
-                        //     })
-                        //     .then((info) => console.log("Email has been sent!"))
-                        //     .catch((err) => console.log(err));
-                          res.status(201).json({
-                            message: "The user has been signed up successfully!",
-                            user,
-                          });
-                    })
-                    .catch((error) => res.status(500).json({ message:"Error while saving" }));
+                const userTypes=["user","organizer"];
+                if(!userTypes.includes(req.body.userType)){
+                    res.status(400).json({message:"Invalid UserType"});
+                }else{
+                    
+                    const user=new userDb({
+                        name:req.body.name,
+                        email:req.body.email,
+                        password:hash,
+                        type:req.body.userType,
+                        gender:req.body.gender,
+                        usn:req.body.usn,
+                        phoneNumber:req.body.phoneNumber,
+                        semester:req.body.semester,
+                        department:req.body.department
+                    });
+                    user.save(user)
+                        .then(response=>{
+                            console.log("saved");
+                            // let transporter = nodemailer.createTransport({
+                            //     service: "gmail",
+                            //     port: 587,
+                            //     secure: false, // true for 465, false for other ports
+                            //     auth: {
+                            //       user: "", 
+                            //       pass: "", 
+                            //     },
+                            //   });
+            
+                            //   transporter
+                            //     .sendMail({
+                            //       from: "01fe20bcs108@kletech.ac.in",
+                            //       to: `${req.body.email}`,
+                            //       subject: "Welcome to iCinema",
+                            //       text: `Hello Dear ${req.body.email}`,
+                            //       html: `<b>Hello Dear User, we are happy that you join our family. Kind Regards, iCinema Team.</b>`,
+                            //     })
+                            //     .then((info) => console.log("Email has been sent!"))
+                            //     .catch((err) => console.log(err));
+                            res.status(201).json({
+                                message: "The user has been signed up successfully!",
+                                user,
+                            });
+                        })
+                        .catch((error) => res.status(500).json({ message:"Error while saving" }));
+                }
             }
         })
     }
@@ -293,9 +300,25 @@ app.post("/registeredEvents",(req,res,next)=>{
         .catch(err=>{throw err});
 })
 
+app.post("/getUserDetails",(req,res,next)=>{
+    const {email}=req.body.user;
+
+    userDb.find({email:email})
+        .then(data=>{
+            if(data.length>0)
+            {
+                res.status(200).json({user:data[0],message:"Success"});
+            }
+            else{
+                res.status(200).json({user:[],message:"User dosent exist"});
+            }
+        })
+        .catch(err=>{throw err});
+})
+
 app.use((error,req,res,next)=>{
     console.log(error);
-    const status=error.statusCode || 500;
+    const status=error.statusCode || 400;
     const message=error.message;
     res.status(status).json({ message:message });
 });

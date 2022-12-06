@@ -128,22 +128,9 @@ function EventRegistration () {
         // }
     }
 
-    // const convertToBase64 = (file) => {
-    //     return new Promise((resolve, reject) => {
-    //       const fileReader = new FileReader();
-    //       fileReader.readAsDataURL(file);
-    //       fileReader.onload = () => {
-    //         resolve(fileReader.result);
-    //       };
-    //       fileReader.onerror = (error) => {
-    //         reject(error);
-    //       };
-    //     });
-    //   };
 
     const handleImageInputChange=(event)=>{
         console.log(event.target.files[0]);
-        // const base64=await convertToBase64(event.target.files[0]);
         setValues({...values,image:event.target.files[0]});
         console.log(values.image);
     }
@@ -243,9 +230,9 @@ function EventRegistration () {
 
     useEffect(()=>{
         authService.refreshPage();
-        if(authService.getCurrentUser().type==="user"){
-            navigate("/");
-        }
+        // if(authService.getCurrentUser().type==="user"){
+        //     navigate("/");
+        // }
     },[])
 
 	return(

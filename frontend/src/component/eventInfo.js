@@ -12,9 +12,10 @@ function EventInfo(){
         organizerName:"",
         venue:"",
         noOfPeopleEstimated:"",
-        fromDateTime:new Date(0),
-        toDateTime:new Date(0),
-        registerFlag:false
+        fromDateTime:new Date(),
+        toDateTime:new Date(),
+        registerFlag:false,
+        upcomingFlag:false
     });
 
     useEffect(()=>{
@@ -28,7 +29,7 @@ function EventInfo(){
             console.log(data);
             if(data.message==="Success"){
                 console.log(data);
-                setValues({...eventValues,
+                setValues(eventValues=>({...eventValues,
                         eventId:id,
                         eventName:data.event.eventName,
                         eventDescription:data.event.eventDescription,
@@ -36,11 +37,11 @@ function EventInfo(){
                         noOfPeopleEstimated:data.event.noOfPeopleEstimated,
                         organizerName:data.event.organizerName,
                         toDateTime:new Date(data.event.toDateTime),
-                        fromDateTime:new Date(data.event.fromDateTime)});
+                        fromDateTime:new Date(data.event.fromDateTime)}));
                         // console.log(eventValues.toDateTime);
             }
             if(!authService.getToken()){
-                setValues({...eventValues,registerFlag:false});
+                setValues(eventValues=>({...eventValues,registerFlag:false}));
                 console.log("h1");
             }
             else{
@@ -59,10 +60,10 @@ function EventInfo(){
 
                     if(data.registeredEventsIds.length>0 &&  data.registeredEventsIds.includes(id)){
                         console.log("h2");
-                        setValues({...eventValues,registerFlag:true});
+                        setValues(eventValues=>({...eventValues,registerFlag:true}));
                     }else{
                         console.log("h3");
-                        setValues({...eventValues,registerFlag:false});
+                        setValues(eventValues=>({...eventValues,registerFlag:false}));
                     }
                 })
                 .catch(err=>console.log(err));

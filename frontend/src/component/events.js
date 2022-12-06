@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 // import EventInfo from './eventInfo';
 
 import { useNavigate } from "react-router-dom";
-import imageS from "../assets/img/avatars/avatar1.jpg";
 function Events () {
     const [upcomingEvents,setUpcomingEvents]=useState([]);
     const [upcomingEventsFlag,setUpcomingEventsFlag]=useState(false);
@@ -22,7 +21,7 @@ function Events () {
             return res.json();
         })
         .then(data=>{
-            // console.log(data);
+            console.log(data);
             if(data.data.length>0)
             {
                 setUpcomingEvents([...upcomingEvents,...data.data]);
@@ -40,6 +39,7 @@ function Events () {
             return res.json();
         })
         .then(data=>{
+            console.log(data);
             if(data.data.length>0){
                 setPreviousEventsFlag(true);
                 setPreviousEvents([...previousEvents,...data.data]);
