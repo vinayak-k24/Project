@@ -38,7 +38,6 @@ function UserDashboard () {
       {
           navigate("/");
       }
-      console.log(upcomingEvents,previousEvents,upcomingEventsFlag,previousEventsFlag)
       setUpcomingEventsFlag(false);
       setPreviousEventsFlag(false);
       setUpcomingEvents([]);
@@ -146,7 +145,7 @@ function UserDashboard () {
                   {upcomingEventsFlag ?
 
                         (upcomingEvents.map(((card)=>(
-                          <MDBCardText>{card.eventName}</MDBCardText>
+                          <MDBCardText><Link to={`/eventInfo/${card._id}`}>{card.eventName}</Link></MDBCardText>
                         ))))
                     
                   :

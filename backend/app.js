@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const multer = require('multer');
 const nodemailer = require("nodemailer");
+const { response } = require("express");
 const ObjectID = require('mongodb').ObjectID;
 
 app.use('/public/uploads', express.static('uploads'));
@@ -110,7 +111,8 @@ app.post("/register",(req,res,next)=>{
                         usn:req.body.usn,
                         phoneNumber:req.body.phoneNumber,
                         semester:req.body.semester,
-                        department:req.body.department
+                        department:req.body.department,
+                        userType:req.body.userType
                     });
                     user.save(user)
                         .then(response=>{
@@ -140,7 +142,7 @@ app.post("/register",(req,res,next)=>{
                                 user,
                             });
                         })
-                        .catch((error) => res.status(500).json({ message:"Error while saving" }));
+                        .catch((error) => res.status(500).json({ message:"Error while saving",err:error }));
                 }
             }
         })
@@ -172,7 +174,7 @@ app.get("/previousEvents",(req,res,next)=>{
                 res.status(200).json({message:"Success",data:data});
             }
             else{
-                res.status(200).json({message:"No Upcoming Events"});
+                res.status(200).json({message:"No Previous Events",data:data});
             }
         })
 })
@@ -182,31 +184,42 @@ app.post("/bookEvent",upload.single("images"),(req,res)=>{
     // console.log(req.images);
     // console.log(req.data);
 
-        
-            console.log(req.body);
-            const url = req.protocol + '://' + req.get('host');
-            const event=new eventDb({
-                eventName:req.body.eventName,
-                eventDescription:req.body.eventDescription,
-                coordinatorName:req.body.coordinatorName,
-                coordinatorEmail:req.body.coordinatorEmail,
-                coordinatorNumber:req.body.coordinatorNumber,
-                venue:req.body.venue,
-                noOfPeopleEstimated:req.body.noOfPeopleEstimated,
-                fromDateTime:new Date(req.body.fromDateTime),
-                toDateTime:new Date(req.body.toDateTime),
-                image: url + '/public/uploads/' + req.file.filename
-            })
-            console.log(event);
-            event.save(event)
-                .then(res=>{
-                    console.log("saved");
+            const decode=jwt.verify(req.body.token,"MONGO_SECRET")
+            if(decode){
+                console.log(req.body);
+                console.log(decode);
+                const url = req.protocol + '://' + req.get('host');
+                const event=new eventDb({
+                    eventName:req.body.eventName,
+                    eventDescription:req.body.eventDescription,
+                    coordinatorName:req.body.coordinatorName,
+                    coordinatorEmail:req.body.coordinatorEmail,
+                    coordinatorNumber:req.body.coordinatorNumber,
+                    venue:req.body.venue,
+                    noOfPeopleEstimated:req.body.noOfPeopleEstimated,
+                    fromDateTime:new Date(req.body.fromDateTime),
+                    toDateTime:new Date(req.body.toDateTime),
+                    image: url + '/public/uploads/' + req.file.filename
                 })
-                .catch(err=>{
-                    console.log(err);
-                })
+                console.log(event);
+                event.save(event)
+                    .then(response=>{
+                        console.log("saved");
+                        userDb.update({email:decode.email},{$push:{"organizedEventIds":event._id}})
+                        .then(response=>{
+                            res.status(200).json({message:"Success"});
+                        })
+                            .catch(err=>{throw err})
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                    })
 
-            res.status(200).json( {message: "Success"} );
+            }
+            else{
+                res.status(400).json( {message: "JWT expired"} );
+            }
+            
         
     })
 

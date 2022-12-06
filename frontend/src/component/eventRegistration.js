@@ -214,6 +214,7 @@ function EventRegistration () {
                 formData.append('toDateTime', values.toDateTime);
                 formData.append('eventType', values.eventType);
                 formData.append('images',values.image);
+                formData.append("token",authService.getToken());
                 console.log(formData);
                 fetch("http://localhost:8080/bookEvent",{
                     method: 'POST',
@@ -230,8 +231,9 @@ function EventRegistration () {
 
     useEffect(()=>{
         authService.refreshPage();
-        // if(authService.getCurrentUser().type==="user"){
-        //     navigate("/");
+        // if(!authService.getToken() && !authService.getCurrentUser()){
+        //     if(authService.getCurrentUser().type==="user")
+        //         navigate("/");
         // }
     },[])
 

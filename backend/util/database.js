@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
     try{
         // mongodb connection string
-        const con = await mongoose.connect("mongodb://localhost:27017/EventManagament", {
+        const con = await mongoose.connect("mongodb+srv://swaroopra2001:swaroopra2001@cluster0.q6lltbn.mongodb.net/EventManagement", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })

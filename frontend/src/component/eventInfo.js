@@ -40,6 +40,15 @@ function EventInfo(){
                         fromDateTime:new Date(data.event.fromDateTime)}));
                         // console.log(eventValues.toDateTime);
             }
+            const date=new Date();
+            console.log(date,data.event.fromDateTime);
+            if(new Date(data.event.fromDateTime)>date){
+                setValues(eventValues=>({...eventValues,upcomingFlag:true}));
+            }
+            else{
+                console.log("HI");
+                setValues(eventValues=>({...eventValues,upcomingFlag:false}));
+            }
             if(!authService.getToken()){
                 setValues(eventValues=>({...eventValues,registerFlag:false}));
                 console.log("h1");
@@ -112,7 +121,7 @@ function EventInfo(){
             <p>{eventValues.eventDescription}</p>
             <h4>Organized By : {eventValues.organizerName}</h4>
             <h1>Venue: {eventValues.venue}</h1>
-            <h2>Date: {eventValues.fromDateTime.getDate()===eventValues.toDateTime.getDate() ? eventValues.fromDateTime.getDate() +'-'+ eventValues.fromDateTime.getMonth() +'-'+ eventValues.fromDateTime.getFullYear() : eventValues.fromDateTime.getDate() +'-'+ eventValues.fromDateTime.getMonth() +'-'+ eventValues.fromDateTime.getFullYear() +"To"+eventValues.toDateTime.getDate() +'-'+ eventValues.toDateTime.getMonth() +'-'+ eventValues.toDateTime.getFullYear()}</h2>
+            <h2>Date: {eventValues.fromDateTime.getDate()===eventValues.toDateTime.getDate() ? `${eventValues.fromDateTime.getDate()}-${eventValues.fromDateTime.getMonth()}-${eventValues.fromDateTime.getFullYear()}` : `${eventValues.fromDateTime.getDate()}-${eventValues.fromDateTime.getMonth()}-${eventValues.fromDateTime.getFullYear()} To ${eventValues.toDateTime.getDate()}-${eventValues.toDateTime.getMonth()}-${eventValues.toDateTime.getFullYear()}`}</h2>
             <h2>Timings: {eventValues.fromDateTime.getHours().toString().length!==2 ? "0"+eventValues.fromDateTime.getHours():eventValues.fromDateTime.getHours()}
                 :{eventValues.fromDateTime.getMinutes().toString().length!==2 ? "0"+eventValues.fromDateTime.getMinutes():eventValues.fromDateTime.getMinutes()}
                 
@@ -127,11 +136,25 @@ function EventInfo(){
             <h1>No.of People Estimated: {eventValues.noOfPeopleEstimated}</h1>
 
 
-            {!eventValues.registerFlag ?
-                <button onClick={registerEvent}>Register</button>
+            {eventValues.upcomingFlag?
+                <>
+                    {!eventValues.registerFlag ?
+                        <button onClick={registerEvent}>Register</button>
+                    :
+                        <button onClick={deRegisterEvent}>DeRegister</button>
+                    }
+                </>
             :
-                <button onClick={deRegisterEvent}>DeRegister</button>
+                <>
+                    {eventValues.registerFlag ?
+                            <button type='disabled'>Registered</button>
+                    :
+                            <button type='disabled'>Not Registered</button>
+                    }
+                </>
             }
+
+            
         </div>
     );
 }

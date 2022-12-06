@@ -36,12 +36,10 @@ var schema = new mongoose.Schema({
         required:true,
     },
     registeredEventsIds:[String],
-    noOfEventsRegistered:{
-        type:Number,
-        default:0
+    organizedEventIds: {
+        type:[String],
+        required:false
     },
-    previousEventsConductedIds:[String],
-    upcomingEventsConductedIds:[String],
     userType:{
         type:String,
         required:true,
