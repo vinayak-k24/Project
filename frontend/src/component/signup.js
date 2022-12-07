@@ -125,27 +125,92 @@ function Signup () {
     }
 
     const signUp=(event)=>{
-        fetch("http://localhost:8080/bookEvent",{
-                method: 'POST',
-                body: values,
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                  }
-            })
-            .then(res=>{return res.json()})
-            .then(data=>{
-                console.log(data);
-                if(data.message==="Signed Up Successfully")
-                {
-                    setAuthError("");
-                    alert("Signed Up Successfully");
-                    navigate("/login");
-                }
-                else{
-                    setAuthError(data.message);
-                }
-            })
-            .catch(err=>console.log(err));        
+        if(values.name.length<4){
+            setNameError("Name length should be minimum 4 ");
+        }
+        else{
+            setNameError("");
+        }
+        
+        if(!validator.isEmail(values.email)){
+            setEmailError("Invalid Email ID");
+        }
+        else{
+            setEmailError("");
+        }
+        
+        if(values.password.length<7){
+            setPasswordError("Password length should be minimum 7");
+        }
+        else{
+            setPasswordError("");
+        }
+        
+        if(values.department.length<4){
+            setDepartmentError("Department length should be minimum 4 ");
+        }
+        else{
+            setDepartmentError("");
+        }
+        
+        if(values.semester.length<4){
+            setSemesterError("Semester length should be minimum 4 ");
+        }
+        else{
+            setSemesterError("");
+        }
+        
+        if(event.target.value==="male" || event.target.value==="female"){
+            setGenderError("");
+        }
+        else{
+            setGenderError("Invalid Gender");
+        }
+        
+        if(values.name.length<4){
+            setUserTypeError("UserType length should be minimum 4 ");
+        }
+        else{
+            setUserTypeError("");
+        }
+        
+        if(values.usn.length<4){
+            setUsnError("usn length should be minimum 4 ");
+        }
+        else{
+            setUsnError("");
+        }
+        
+        if(values.phoneNumber.toString().length<10){
+            setPhonenumberError("Number length should be minimum 10 ");
+        }
+        else{
+            setPhonenumberError("");
+        }
+
+        if(!nameError && !emailError && !passwordError && !departmentError && !phonenumberError && !semesterError && !genderError && !userTypeError && !usnError){    
+            fetch("http://localhost:8080/bookEvent",{
+                    method: 'POST',
+                    body: values,
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    }
+                })
+                .then(res=>{return res.json()})
+                .then(data=>{
+                    console.log(data);
+                    if(data.message==="Signed Up Successfully")
+                    {
+                        setAuthError("");
+                        alert("Signed Up Successfully");
+                        navigate("/login");
+                    }
+                    else{
+                        setAuthError(data.message);
+                    }
+                })
+                .catch(err=>console.log(err));
+        }
     }
     
 	return(
@@ -163,7 +228,7 @@ function Signup () {
         <div className='d-flex flex-row mt-2'>
             <MDBIcon fas icon="cubes fa-3x me-3" style={{ color: '#ff6219' }}/>
             <span className="h1 fw-bold" alignment='center'>       Registration Form </span>
-            </div>
+        </div>
 
 
         <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Full Name' id='name' type='text' size="lg" required value={values.name} onChange={handleNameInputChange} />

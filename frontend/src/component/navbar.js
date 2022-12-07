@@ -6,7 +6,7 @@ import authService from '../services/auth.service';
 import { Navbar, Nav } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 // import { MDBCardImage } from 'mdb-react-ui-kit';
-// import bgImage from  '../assets/logo.png';
+import bgImage from  '../assets/logo.png';
 
 function Navigationbar () {
     const [flag,setFlag]=useState(false);
@@ -25,7 +25,7 @@ function Navigationbar () {
 
         <Navbar bg="light" variant="light" sticky="top" style={{paddingRight:15}} >
       <LinkContainer to="/">
-        <Navbar.Brand><img src={""} alt="kletech" style={{height:60,marginLeft:15}}/></Navbar.Brand>
+        <Navbar.Brand><img src={bgImage} alt="kletech" style={{height:60,marginLeft:15}}/></Navbar.Brand>
       </LinkContainer>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
