@@ -27,6 +27,15 @@ function Signup () {
         usn:"",
     });
 
+    const [nameError,setNameError]=useState("");
+    const [emailError,setEmailError]=useState("");
+    const [passwordError,setPasswordError]=useState("");
+    const [departmentError,setDepartmentError]=useState("");
+    const [phonenumberError,setPhonenumberError]=useState("");
+    const [semesterError,setSemesterError]=useState("");
+    const [genderError,setGenderError]=useState("");
+    const [userTypeError,setUserTypeError]=useState("");
+    const [usnError,setUsnError]=useState("");
     const signUp=()=>{
         
     }
