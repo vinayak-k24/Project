@@ -35,21 +35,27 @@ function Login (){
     }
 
     const submitDeatils= (event)=>{
-        // event.preventDefault();
+        event.preventDefault();
+        let emaile,passe;
         if(!validator.isEmail(values.email)){
-            setEmailError("Enter Valid Email");
+            emaile="Enter Valid Email";
+            setEmailError(emaile);
         }
         else{
-            setEmailError(emailError=> ({emailError,emailError:null}) );
+            emaile=null;
+            setEmailError(emailError=>emaile);
+            console.log(emailError);
         }
         if(values.pasword.length<7){
             setPasswordError("Password length should be greater then 7");
         }
         else{
-            setPasswordError(passwordError=> ({passwordError,passwordError:null}) );
-            
+            passe=null;
+            setPasswordError(passwordError=> passe);
+            console.log(passwordError);
         }
-        if(emailError===null && passwordError===null){
+        if(emaile===null && passe===null){
+            console.log(emailError,passwordError);
                 authService.login(values.email,values.pasword)
                         .then(res=> res.json())
                         .then(data=>{

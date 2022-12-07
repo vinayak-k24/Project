@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import bgImage from  '../assets/img/pexels-photo-160107.jpeg';
+import bgImage from  '../assets/cll1.jpg';
 import authService from '../services/auth.service';
 
 function Home (){

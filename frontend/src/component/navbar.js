@@ -1,10 +1,14 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import authService from '../services/auth.service';
+import { Navbar, Nav } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+// import { MDBCardImage } from 'mdb-react-ui-kit';
+// import bgImage from  '../assets/logo.png';
 
-function Navbar () {
+function Navigationbar () {
     const [flag,setFlag]=useState(false);
     useEffect(()=>{
       if(!authService.getCurrentUser() || authService.getExpiryToken()){
@@ -18,26 +22,37 @@ function Navbar () {
 	
     
     return <div>
-		<nav className="navbar navbar-light navbar-expand-lg bg-white clean-navbar">
-          <div className="container"><Link className="navbar-brand logo" to="/">Brand</Link><button data-bs-toggle="collapse" className="navbar-toggler" data-bs-target="#navcol-1"><span className="visually-hidden">Toggle navigation</span><span className="navbar-toggler-icon"></span></button>
-              <div className="collapse navbar-collapse" id="navcol-1">
-                  <ul className="navbar-nav ms-auto">
-                      <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
-                      <li className="nav-item"><Link className="nav-link" to="/events">Events</Link></li>
-                      <li className="nav-item"><Link className="nav-link" to="/about">About Us</Link></li>
-                      {
+
+        <Navbar bg="light" variant="light" sticky="top" style={{paddingRight:15}} >
+      <LinkContainer to="/">
+        <Navbar.Brand><img src={""} alt="kletech" style={{height:60,marginLeft:15}}/></Navbar.Brand>
+      </LinkContainer>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="ms-auto">
+          <LinkContainer to="/">
+            <Nav.Link>Home</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/events">
+            <Nav.Link>Events</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/about">
+            <Nav.Link>About us</Nav.Link>
+          </LinkContainer>
+          {
                         flag?
                         <>
-                          <li className="nav-item"><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
-                          <li className="nav-item"><Link className="nav-link" to="/logout">Logout</Link></li>
+                          <LinkContainer to="/dashboard"><Nav.Link>Dashboard</Nav.Link></LinkContainer>
+                          
+                          <LinkContainer to="/logout"><Nav.Link>Logout</Nav.Link></LinkContainer>
+                   
                         </> 
                         :
-                          <li className="nav-item"><Link className="nav-link" to="/login">Login</Link></li>
+                        <LinkContainer to="/login"><Nav.Link>Login</Nav.Link></LinkContainer>
                         }
-                  </ul>
-              </div>
-          </div>
-        </nav>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
 	</div>
 }
-export default Navbar;
+export default Navigationbar;

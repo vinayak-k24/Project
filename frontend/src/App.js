@@ -16,7 +16,7 @@ import Dashboard from './component/dashboard';
 import Logout from './component/logout';
 import Signup from './component/signup';
 import EventRegistration from './component/eventRegistration';
-import Navbar from './component/navbar';
+import Navigationbar from './component/navbar';
 
 // import "https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js";
 // import "./assets/js/vanilla-zoom.js";
@@ -38,7 +38,7 @@ render() {
     <Router>
       <div className="App">
         
-        <Navbar></Navbar>
+        <Navigationbar></Navigationbar>
         <Routes>
           <Route exact path='/' element={<Home />}></Route>
           <Route exact path='/about' element={<About />}></Route>
