@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import validator from "validator";
+import { useNavigate } from "react-router-dom";
 import {
     MDBBtn,
     MDBContainer,
@@ -16,6 +17,7 @@ import {
 // import "./signup.css";
 // import "https://unicons.iconscout.com/release/v4.0.0/css/line.css";
 function Signup () {
+    const navigate=useNavigate();
     const [values,setValues]=useState({
         name:"",
         email:"",
@@ -37,6 +39,7 @@ function Signup () {
     const [genderError,setGenderError]=useState("");
     const [userTypeError,setUserTypeError]=useState("");
     const [usnError,setUsnError]=useState("");
+    const [authError,setAuthError]=useState("");
 
 
     const handleNameInputChange=(event)=>{
@@ -57,72 +60,92 @@ function Signup () {
             setEmailError("");
         }
     }
-    // const handleNameInputChange=(event)=>{
-    //     setValues(values=>({...values,name:event.target.value}))
-    //     if(values.name.length<4){
-    //         setNameError("Name length should be minimum 4 ");
-    //     }
-    //     else{
-    //         setNameError("");
-    //     }
-    // }
-    // const handleNameInputChange=(event)=>{
-    //     setValues(values=>({...values,name:event.target.value}))
-    //     if(values.name.length<4){
-    //         setNameError("Name length should be minimum 4 ");
-    //     }
-    //     else{
-    //         setNameError("");
-    //     }
-    // }
-    // const handleNameInputChange=(event)=>{
-    //     setValues(values=>({...values,name:event.target.value}))
-    //     if(values.name.length<4){
-    //         setNameError("Name length should be minimum 4 ");
-    //     }
-    //     else{
-    //         setNameError("");
-    //     }
-    // }
-    // const handleNameInputChange=(event)=>{
-    //     setValues(values=>({...values,name:event.target.value}))
-    //     if(values.name.length<4){
-    //         setNameError("Name length should be minimum 4 ");
-    //     }
-    //     else{
-    //         setNameError("");
-    //     }
-    // }
-    // const handleNameInputChange=(event)=>{
-    //     setValues(values=>({...values,name:event.target.value}))
-    //     if(values.name.length<4){
-    //         setNameError("Name length should be minimum 4 ");
-    //     }
-    //     else{
-    //         setNameError("");
-    //     }
-    // }
-    // const handleNameInputChange=(event)=>{
-    //     setValues(values=>({...values,name:event.target.value}))
-    //     if(values.name.length<4){
-    //         setNameError("Name length should be minimum 4 ");
-    //     }
-    //     else{
-    //         setNameError("");
-    //     }
-    // }
-    // const handleNameInputChange=(event)=>{
-    //     setValues(values=>({...values,name:event.target.value}))
-    //     if(values.name.length<4){
-    //         setNameError("Name length should be minimum 4 ");
-    //     }
-    //     else{
-    //         setNameError("");
-    //     }
-    // }
+    const handlePasswordInputChange=(event)=>{
+        setValues(values=>({...values,password:event.target.value}))
+        if(values.password.length<7){
+            setPasswordError("Password length should be minimum 7");
+        }
+        else{
+            setPasswordError("");
+        }
+    }
+    const handleDepartmentInputChange=(event)=>{
+        setValues(values=>({...values,department:event.target.value}))
+        if(values.department.length<4){
+            setDepartmentError("Department length should be minimum 4 ");
+        }
+        else{
+            setDepartmentError("");
+        }
+    }
+    const handleSemesternumberInputChange=(event)=>{
+        setValues(values=>({...values,semester:event.target.value}))
+        if(values.semester.length<4){
+            setSemesterError("Semester length should be minimum 4 ");
+        }
+        else{
+            setSemesterError("");
+        }
+    }
+    const handleGenderInputChange=(event)=>{
+        setValues(values=>({...values,gender:event.target.value}))
+        if(event.target.value==="male" || event.target.value==="female"){
+            setGenderError("");
+        }
+        else{
+            setGenderError("Invalid Gender");
+        }
+    }
+    const handleUserTypeInputChange=(event)=>{
+        setValues(values=>({...values,userType:event.target.value}))
+        if(values.name.length<4){
+            setUserTypeError("UserType length should be minimum 4 ");
+        }
+        else{
+            setUserTypeError("");
+        }
+    }
+    const handleUsnInputChange=(event)=>{
+        setValues(values=>({...values,usn:event.target.value}))
+        if(values.usn.length<4){
+            setUsnError("usn length should be minimum 4 ");
+        }
+        else{
+            setUsnError("");
+        }
+    }
+    const handlePhoneNumberInputChange=(event)=>{
+        setValues(values=>({...values,phoneNumber:event.target.value}))
+        if(values.phoneNumber.toString().length<10){
+            setPhonenumberError("Number length should be minimum 10 ");
+        }
+        else{
+            setPhonenumberError("");
+        }
+    }
 
-    const signUp=()=>{
-        
+    const signUp=(event)=>{
+        fetch("http://localhost:8080/bookEvent",{
+                method: 'POST',
+                body: values,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                  }
+            })
+            .then(res=>{return res.json()})
+            .then(data=>{
+                console.log(data);
+                if(data.message==="Signed Up Successfully")
+                {
+                    setAuthError("");
+                    alert("Signed Up Successfully");
+                    navigate("/login");
+                }
+                else{
+                    setAuthError(data.message);
+                }
+            })
+            .catch(err=>console.log(err));        
     }
     
 	return(
@@ -143,25 +166,35 @@ function Signup () {
             </div>
 
 
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Full Name' id='name' type='text' size="lg" required value={values.name} onChange={(e)=>setValues({...values,name:e.target.value})} />
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Full Name' id='name' type='text' size="lg" required value={values.name} onChange={handleNameInputChange} />
+        <small>{nameError}</small>
         
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Email' id='email' type='text' size="lg" required value={values.email} onChange={(e)=>setValues({...values,email:e.target.value})}/>
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Email' id='email' type='text' size="lg" required value={values.email} onChange={handleEmailInputChange}/>
+        <small>{emailError}</small>
 
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Gender' id='gender' type='text' size="lg" required value={values.gender} onChange={(e)=>setValues({...values,gender:e.target.value})} />
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Gender' id='gender' type='text' size="lg" required value={values.gender} onChange={handleGenderInputChange} />
+        <small>{genderError}</small>
 
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Mobile Number' id='number' type='number' size="lg" required value={values.phoneNumber} onChange={(e)=>setValues({...values,phoneNumber:e.target.value})}/>
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Mobile Number' id='number' type='number' size="lg" required value={values.phoneNumber} onChange={handlePhoneNumberInputChange}/>
+        <small>{phonenumberError}</small>
 
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Department' id='department' type='text' size="lg" required value={values.department} onChange={(e)=>setValues({...values,department:e.target.value})}/>
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Department' id='department' type='text' size="lg" required value={values.department} onChange={handleDepartmentInputChange}/>
+        <small>{departmentError}</small>
         
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='USN' id='usn' type='text' size="lg" required value={values.usn} onChange={(e)=>setValues({...values,usn:e.target.value})}/>
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='USN' id='usn' type='text' size="lg" required value={values.usn} onChange={handleUsnInputChange}/>
+        <small>{usnError}</small>
         
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Password' id='password' type='password' size="lg" required value={values.password} onChange={(e)=>setValues({...values,password:e.target.value})}/>
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Password' id='password' type='password' size="lg" required value={values.password} onChange={handlePasswordInputChange}/>
+        <small>{passwordError}</small>
         
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Semester' id='semester' type='numbe' size="lg"  required value={values.semester} onChange={(e)=>setValues({...values,semester:e.target.value})}/>
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Semester' id='semester' type='numbe' size="lg"  required value={values.semester} onChange={handleSemesternumberInputChange}/>
+        <small>{semesterError}</small>
 
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Type' id='type' type='text' size="lg" required value={values.type} onChange={(e)=>setValues({...values,type:e.target.value})} />
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Type' id='type' type='text' size="lg" required value={values.userType} onChange={handleUserTypeInputChange} />
+        <small>{userTypeError}</small>
        
         <button className="mb-4 px-5 btn btn-primary" id="submit" size='lg' onClick={signUp}>REGISTER</button>
+        <small>{authError}</small>
         
         
   
