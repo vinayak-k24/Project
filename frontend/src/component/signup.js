@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import validator from "validator";
 import {
     MDBBtn,
     MDBContainer,
@@ -36,6 +37,90 @@ function Signup () {
     const [genderError,setGenderError]=useState("");
     const [userTypeError,setUserTypeError]=useState("");
     const [usnError,setUsnError]=useState("");
+
+
+    const handleNameInputChange=(event)=>{
+        setValues(values=>({...values,name:event.target.value}))
+        if(values.name.length<4){
+            setNameError("Name length should be minimum 4 ");
+        }
+        else{
+            setNameError("");
+        }
+    }
+    const handleEmailInputChange=(event)=>{
+        setValues(values=>({...values,email:event.target.value}))
+        if(!validator.isEmail(values.email)){
+            setEmailError("Invalid Email ID");
+        }
+        else{
+            setEmailError("");
+        }
+    }
+    // const handleNameInputChange=(event)=>{
+    //     setValues(values=>({...values,name:event.target.value}))
+    //     if(values.name.length<4){
+    //         setNameError("Name length should be minimum 4 ");
+    //     }
+    //     else{
+    //         setNameError("");
+    //     }
+    // }
+    // const handleNameInputChange=(event)=>{
+    //     setValues(values=>({...values,name:event.target.value}))
+    //     if(values.name.length<4){
+    //         setNameError("Name length should be minimum 4 ");
+    //     }
+    //     else{
+    //         setNameError("");
+    //     }
+    // }
+    // const handleNameInputChange=(event)=>{
+    //     setValues(values=>({...values,name:event.target.value}))
+    //     if(values.name.length<4){
+    //         setNameError("Name length should be minimum 4 ");
+    //     }
+    //     else{
+    //         setNameError("");
+    //     }
+    // }
+    // const handleNameInputChange=(event)=>{
+    //     setValues(values=>({...values,name:event.target.value}))
+    //     if(values.name.length<4){
+    //         setNameError("Name length should be minimum 4 ");
+    //     }
+    //     else{
+    //         setNameError("");
+    //     }
+    // }
+    // const handleNameInputChange=(event)=>{
+    //     setValues(values=>({...values,name:event.target.value}))
+    //     if(values.name.length<4){
+    //         setNameError("Name length should be minimum 4 ");
+    //     }
+    //     else{
+    //         setNameError("");
+    //     }
+    // }
+    // const handleNameInputChange=(event)=>{
+    //     setValues(values=>({...values,name:event.target.value}))
+    //     if(values.name.length<4){
+    //         setNameError("Name length should be minimum 4 ");
+    //     }
+    //     else{
+    //         setNameError("");
+    //     }
+    // }
+    // const handleNameInputChange=(event)=>{
+    //     setValues(values=>({...values,name:event.target.value}))
+    //     if(values.name.length<4){
+    //         setNameError("Name length should be minimum 4 ");
+    //     }
+    //     else{
+    //         setNameError("");
+    //     }
+    // }
+
     const signUp=()=>{
         
     }
