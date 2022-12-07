@@ -10,6 +10,7 @@ const db=require("./util/database");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const multer = require('multer');
+const fs=require("fs");
 const nodemailer = require("nodemailer");
 const { response } = require("express");
 const ObjectID = require('mongodb').ObjectID;
@@ -185,7 +186,13 @@ app.post("/bookEvent",upload.single("images"),(req,res)=>{
     // console.log(req.data);
 
             const decode=jwt.verify(req.body.token,"MONGO_SECRET")
-            if(decode){
+            if(!decode){
+                res.status(400).json( {message: "JWT expired"} );
+            }
+            else if(decode.type==="user"){
+                res.status(400).json( {message: "User Cannot Book an Event"} );
+            }
+            else{
                 console.log(req.body);
                 console.log(decode);
                 const url = req.protocol + '://' + req.get('host');
@@ -199,7 +206,9 @@ app.post("/bookEvent",upload.single("images"),(req,res)=>{
                     noOfPeopleEstimated:req.body.noOfPeopleEstimated,
                     fromDateTime:new Date(req.body.fromDateTime),
                     toDateTime:new Date(req.body.toDateTime),
-                    image: url + '/public/uploads/' + req.file.filename
+                    image: url + '/public/uploads/' + req.file.filename,
+                    organizerEmail:decode.email,
+                    organizerName:decode.name
                 })
                 console.log(event);
                 event.save(event)
@@ -216,12 +225,40 @@ app.post("/bookEvent",upload.single("images"),(req,res)=>{
                     })
 
             }
-            else{
-                res.status(400).json( {message: "JWT expired"} );
-            }
-            
         
     })
+
+
+
+app.post("/eventDelete",(req,res,next)=>{
+    if(!req.body.id){
+        res.status(400).json( {message: "Invalid Event Id"} );
+    }
+    else{
+        const {id}=req.body;
+        console.log(id);
+        eventDb.findOne({_id:id})
+        .then(data=>{
+            console.log(data);
+            if(!data){
+                res.status(400).json( {message: "Invalid Event Id"} );
+            }
+            else{
+                const link=data.image;
+                eventDb.findByIdAndDelete(id)
+                .then(response=>{
+                    fs.unlink(link,(err)=>{
+                        if (err) throw err;
+                        // if no error, file has been deleted successfully
+                        console.log('File deleted!');
+                    });
+                    console.log("Successfully deleted");
+                })
+            }
+        })
+        
+    }
+})
 
 app.get("/eventInfo/:id",(req,res,next)=>{
     const objid=new ObjectID(req.params.id);

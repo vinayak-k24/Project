@@ -10,12 +10,14 @@ function EventInfo(){
         eventName:"",
         eventDescription:"",
         organizerName:"",
+        organizerEmail:"",
         venue:"",
         noOfPeopleEstimated:"",
         fromDateTime:new Date(),
         toDateTime:new Date(),
         registerFlag:false,
-        upcomingFlag:false
+        upcomingFlag:false,
+        organizedFlag:false
     });
 
     useEffect(()=>{
@@ -35,10 +37,17 @@ function EventInfo(){
                         eventDescription:data.event.eventDescription,
                         venue:data.event.venue,
                         noOfPeopleEstimated:data.event.noOfPeopleEstimated,
+                        organizerEmail:data.event.organizerEmail,
                         organizerName:data.event.organizerName,
                         toDateTime:new Date(data.event.toDateTime),
                         fromDateTime:new Date(data.event.fromDateTime)}));
                         // console.log(eventValues.toDateTime);
+            }
+            if(data.event.organizerEmail===authService.getCurrentUser().email){
+                setValues(eventValues=>({...eventValues,organizedFlag:true}));
+            }
+            else{
+                setValues(eventValues=>({...eventValues,organizedFlag:false}));
             }
             const date=new Date();
             console.log(date,data.event.fromDateTime);
@@ -83,6 +92,22 @@ function EventInfo(){
             console.log(err);
         })
     },[]);
+
+    const deleteEvent=()=>{
+        fetch("http://localhost:8080/eventDelete",
+            {
+                method:"POST",
+                body:JSON.stringify({id:eventValues.eventId}),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    }
+            })
+            .then(res=>{return res.json()})
+            .then(data=>{
+                console.log(data);
+            })
+            .catch(err=>console.log(err));
+    }
 
     const registerEvent=()=>{
         console.log(authService.getCurrentUser().email);
@@ -135,8 +160,27 @@ function EventInfo(){
                 </h2>
             <h1>No.of People Estimated: {eventValues.noOfPeopleEstimated}</h1>
 
+            {eventValues.organizedFlag?
+            
+            <>
+                {eventValues.upcomingFlag?
+                
+                    <>
+                        <button>Edit</button>
+                        <button onClick={deleteEvent}>Delete</button>
+                    </>
+                :
+                
+                    <>
 
-            {eventValues.upcomingFlag?
+                    </>
+                }
+            </>
+
+            :
+
+            <>
+                {eventValues.upcomingFlag?
                 <>
                     {!eventValues.registerFlag ?
                         <button onClick={registerEvent}>Register</button>
@@ -153,6 +197,9 @@ function EventInfo(){
                     }
                 </>
             }
+            </>
+            }
+            
 
             
         </div>

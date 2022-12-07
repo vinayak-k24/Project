@@ -41,6 +41,14 @@ var schema = new mongoose.Schema({
         type:String,
         requires:true
     },
+    organizerName:{
+        type:String,
+        requires:true
+    },
+    organizerEmail:{
+        type:String,
+        requires:true
+    },
     eventType:{
         type:String,
         requires:true
