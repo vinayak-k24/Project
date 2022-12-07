@@ -40,13 +40,13 @@ function Login (){
             setEmailError("Enter Valid Email");
         }
         else{
-            setEmailError(emailError=> ({emailError:null}) );
+            setEmailError(emailError=> ({emailError,emailError:null}) );
         }
         if(values.pasword.length<7){
             setPasswordError("Password length should be greater then 7");
         }
         else{
-            setPasswordError(passwordError=> ({passwordError:null}) );
+            setPasswordError(passwordError=> ({passwordError,passwordError:null}) );
             
         }
         if(emailError===null && passwordError===null){
