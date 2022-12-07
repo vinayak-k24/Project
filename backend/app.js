@@ -93,31 +93,31 @@ app.post("/login",(req,res,next)=>{
 app.post("/register",(req,res,next)=>{
     console.log(req.body);
     
-    
-    userDb.findOne({email:req.body.email})
+    const {values}=req.body;
+    userDb.findOne({email:values.email})
     .then((user) => {
         if (user)
           res.status(409).json({ error: "The entered Email already exist!" });
         else {
-          bcrypt.hash(req.body.password, 10, (error, hash) => {
+          bcrypt.hash(values.password, 10, (error, hash) => {
             if (error) res.status(500).json({ error });
             else {
                 const userTypes=["user","organizer"];
-                if(!userTypes.includes(req.body.userType)){
+                if(!userTypes.includes(values.userType)){
                     res.status(400).json({message:"Invalid UserType"});
                 }else{
                     
                     const user=new userDb({
-                        name:req.body.name,
-                        email:req.body.email,
+                        name:values.name,
+                        email:values.email,
                         password:hash,
-                        type:req.body.userType,
-                        gender:req.body.gender,
-                        usn:req.body.usn,
-                        phoneNumber:req.body.phoneNumber,
-                        semester:req.body.semester,
-                        department:req.body.department,
-                        userType:req.body.userType
+                        type:values.userType,
+                        gender:values.gender,
+                        usn:values.usn,
+                        phoneNumber:values.phoneNumber,
+                        semester:values.semester,
+                        department:values.department,
+                        userType:values.userType
                     });
                     user.save(user)
                         .then(response=>{
@@ -135,15 +135,15 @@ app.post("/register",(req,res,next)=>{
                             //   transporter
                             //     .sendMail({
                             //       from: "01fe20bcs108@kletech.ac.in",
-                            //       to: `${req.body.email}`,
-                            //       subject: "Welcome to iCinema",
-                            //       text: `Hello Dear ${req.body.email}`,
+                            //       to: `${values.email}`,
+                            //       subject: "Welcome to KLE Tech Management System",
+                            //       text: `Hello Dear ${values.email}`,
                             //       html: `<b>Hello Dear User, we are happy that you join our family. Kind Regards, iCinema Team.</b>`,
                             //     })
                             //     .then((info) => console.log("Email has been sent!"))
                             //     .catch((err) => console.log(err));
                             res.status(201).json({
-                                message: "The user has been signed up successfully!",
+                                message: "Signed Up Successfully",
                                 user,
                             });
                         })

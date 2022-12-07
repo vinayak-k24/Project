@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import validator from "validator";
+
 import { useNavigate } from "react-router-dom";
 import {
     MDBBtn,
@@ -14,6 +15,7 @@ import {
     MDBInput
   }
   from 'mdb-react-ui-kit';
+import authService from '../services/auth.service';
 // import "./signup.css";
 // import "https://unicons.iconscout.com/release/v4.0.0/css/line.css";
 function Signup () {
@@ -40,11 +42,17 @@ function Signup () {
     const [userTypeError,setUserTypeError]=useState("");
     const [usnError,setUsnError]=useState("");
     const [authError,setAuthError]=useState("");
-
+    
+    useEffect(() => {
+        if(authService.getCurrentUser())
+        {
+            navigate("/");
+        }
+    }, [authError]);
 
     const handleNameInputChange=(event)=>{
         setValues(values=>({...values,name:event.target.value}))
-        if(values.name.length<4){
+        if(event.target.value.length<4){
             setNameError("Name length should be minimum 4 ");
         }
         else{
@@ -53,7 +61,7 @@ function Signup () {
     }
     const handleEmailInputChange=(event)=>{
         setValues(values=>({...values,email:event.target.value}))
-        if(!validator.isEmail(values.email)){
+        if(!validator.isEmail(event.target.value)){
             setEmailError("Invalid Email ID");
         }
         else{
@@ -62,7 +70,7 @@ function Signup () {
     }
     const handlePasswordInputChange=(event)=>{
         setValues(values=>({...values,password:event.target.value}))
-        if(values.password.length<7){
+        if(event.target.value.length<7){
             setPasswordError("Password length should be minimum 7");
         }
         else{
@@ -71,7 +79,7 @@ function Signup () {
     }
     const handleDepartmentInputChange=(event)=>{
         setValues(values=>({...values,department:event.target.value}))
-        if(values.department.length<4){
+        if(event.target.value.length<4){
             setDepartmentError("Department length should be minimum 4 ");
         }
         else{
@@ -80,8 +88,8 @@ function Signup () {
     }
     const handleSemesternumberInputChange=(event)=>{
         setValues(values=>({...values,semester:event.target.value}))
-        if(values.semester.length<4){
-            setSemesterError("Semester length should be minimum 4 ");
+        if(event.target.value>8 || event.target.value<0){
+            setSemesterError("Invalid Semester");
         }
         else{
             setSemesterError("");
@@ -98,7 +106,7 @@ function Signup () {
     }
     const handleUserTypeInputChange=(event)=>{
         setValues(values=>({...values,userType:event.target.value}))
-        if(values.name.length<4){
+        if(event.target.value.length<4){
             setUserTypeError("UserType length should be minimum 4 ");
         }
         else{
@@ -107,7 +115,7 @@ function Signup () {
     }
     const handleUsnInputChange=(event)=>{
         setValues(values=>({...values,usn:event.target.value}))
-        if(values.usn.length<4){
+        if(event.target.value.length<4){
             setUsnError("usn length should be minimum 4 ");
         }
         else{
@@ -116,7 +124,7 @@ function Signup () {
     }
     const handlePhoneNumberInputChange=(event)=>{
         setValues(values=>({...values,phoneNumber:event.target.value}))
-        if(values.phoneNumber.toString().length<10){
+        if(event.target.value.toString().length<10){
             setPhonenumberError("Number length should be minimum 10 ");
         }
         else{
@@ -125,6 +133,7 @@ function Signup () {
     }
 
     const signUp=(event)=>{
+        // event.preventDefault();
         if(values.name.length<4){
             setNameError("Name length should be minimum 4 ");
         }
@@ -153,14 +162,14 @@ function Signup () {
             setDepartmentError("");
         }
         
-        if(values.semester.length<4){
-            setSemesterError("Semester length should be minimum 4 ");
+        if(values.semester<0 || values.semester>8){
+            setSemesterError("Invalid Semester");
         }
         else{
             setSemesterError("");
         }
         
-        if(event.target.value==="male" || event.target.value==="female"){
+        if(values.gender==="male" || values.gender==="female"){
             setGenderError("");
         }
         else{
@@ -188,10 +197,11 @@ function Signup () {
             setPhonenumberError("");
         }
 
-        if(!nameError && !emailError && !passwordError && !departmentError && !phonenumberError && !semesterError && !genderError && !userTypeError && !usnError){    
-            fetch("http://localhost:8080/bookEvent",{
+        if(!nameError && !emailError && !passwordError && !departmentError && !phonenumberError && !semesterError && !genderError && !userTypeError && !usnError){   
+            console.log("hello"); 
+            fetch("http://localhost:8080/register",{
                     method: 'POST',
-                    body: values,
+                    body: JSON.stringify({values}),
                     headers: {
                         'Content-type': 'application/json; charset=UTF-8',
                     }
@@ -199,11 +209,15 @@ function Signup () {
                 .then(res=>{return res.json()})
                 .then(data=>{
                     console.log(data);
-                    if(data.message==="Signed Up Successfully")
+                    if(data.message && data.message==="Signed Up Successfully")
                     {
                         setAuthError("");
                         alert("Signed Up Successfully");
                         navigate("/login");
+                    }
+                    else if(!data.message){
+                        console.log(data.error);
+                        setAuthError(data.error);
                     }
                     else{
                         setAuthError(data.message);
