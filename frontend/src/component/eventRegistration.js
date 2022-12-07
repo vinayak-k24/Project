@@ -3,10 +3,12 @@ import validator from "validator";
 import DateTimePicker from 'react-datetime-picker';
 import { useEffect } from 'react';
 import authService from '../services/auth.service';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 // import "./eventRegistration.css";
 // import "./eventRegistrationJs.js";
 function EventRegistration () {
+    
+    const navigate=useNavigate();
 
     const [values,setValues]=useState({
         eventName:"",
@@ -223,11 +225,11 @@ function EventRegistration () {
                 })
                         .then(data=>{
                             console.log(data);
+                            navigate("/events");
                         })
                         .catch(err=>console.log(err));
         }
     }
-    const navigate=useNavigate();
 
     useEffect(()=>{
         authService.refreshPage();

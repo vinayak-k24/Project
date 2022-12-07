@@ -104,12 +104,12 @@ function Login (){
                         </div>
 
 
-                    <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg" onChange={handleEmailInputChange}  value={values.email}/>
+                    <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg1' type='email' size="lg" onChange={handleEmailInputChange}  value={values.email}/>
                     <span className="mb-4">{emailError}</span>
-                    <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" onChange={handlePasswordInputChange}  value={values.pasword}/>
+                    <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg2' type='password' size="lg" onChange={handlePasswordInputChange}  value={values.pasword}/>
                     <span className="mb-4">{passwordError}</span>
 
-                    <button className="mb-4 px-5" color='dark' size='lg' onClick={submitDeatils}>Login</button>
+                    <button className="mb-4 px-5" id="submit" color='dark' size='lg' onClick={submitDeatils}>Login</button>
                     <a className="small text-muted" href="#!">Forgot password?</a>
                     <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Don't have an account? <a href="#!" style={{color: '#393f81'}}>Register here</a></p>
 

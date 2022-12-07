@@ -39,25 +39,28 @@ var schema = new mongoose.Schema({
     },
     guestName:{
         type:String,
-        requires:true
+        required:true
     },
     organizerName:{
         type:String,
-        requires:true
+        required:true
     },
     organizerEmail:{
         type:String,
-        requires:true
+        required:true
     },
     eventType:{
         type:String,
-        requires:true
+        required:true
     },
     image:{
         type:String,
-        requires:true
+        required:true
     },
-
+    status:{
+        type:String,
+        required:true
+    }
 })
 
 const event = mongoose.model('event', schema);

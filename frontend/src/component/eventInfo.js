@@ -1,9 +1,10 @@
 import React, {useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import authService from '../services/auth.service';
 // import {withRouter} from 'react-router-dom'
 
 function EventInfo(){
+    const navigate=useNavigate();
     const { id } = useParams();
     const [eventValues,setValues]=useState({
         eventId:"",
@@ -97,7 +98,7 @@ function EventInfo(){
         fetch("http://localhost:8080/eventDelete",
             {
                 method:"POST",
-                body:JSON.stringify({id:eventValues.eventId}),
+                body:JSON.stringify({id:eventValues.eventId,email:authService.getCurrentUser().email}),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                     }
@@ -105,6 +106,8 @@ function EventInfo(){
             .then(res=>{return res.json()})
             .then(data=>{
                 console.log(data);
+                alert("Deleted Successfully");
+                navigate("/events");
             })
             .catch(err=>console.log(err));
     }

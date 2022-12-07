@@ -46,16 +46,17 @@ app.post("/login",(req,res,next)=>{
             error.statusCode=404;
             throw error;
             }
-          else if (user.length > 0) {
+          else {
             
             bcrypt.compare(password, user[0].password, (_err, result) => {
 
               if (_err){
-                const error=new Error("Authentication has failed");
-                error.statusCode=401;
-                throw error;
-            } 
+                    const error=new Error("Authentication has failed");
+                    error.statusCode=401;
+                    throw error;
+                } 
               else if (result) {
+                console.log(result);
                 const userData = {
                   email: user[0].email,
                   ID: user[0]._id,
@@ -67,16 +68,19 @@ app.post("/login",(req,res,next)=>{
                   message: "Authentication has been successful",
                   token: token
                 });
-              } else
-                {
-                    const error=new Error("Password is Incorrect");
-                    error.statusCode=404;
-                    throw error;
-                }
+              }
+              else{
+                console.log("in");
+                // res.status(400).json({message:"Invalid password"});
+                var error=new Error("Authentication has failed");
+                error.statusCode=401;
+                throw error;
+              }
             });
           }
         })
         .catch((err)=>{
+            console.log(err);
             if(!err.statusCode){
                 err.statusCode=500;
             }
@@ -235,7 +239,7 @@ app.post("/eventDelete",(req,res,next)=>{
         res.status(400).json( {message: "Invalid Event Id"} );
     }
     else{
-        const {id}=req.body;
+        const {id,email}=req.body;
         console.log(id);
         eventDb.findOne({_id:id})
         .then(data=>{
@@ -244,15 +248,31 @@ app.post("/eventDelete",(req,res,next)=>{
                 res.status(400).json( {message: "Invalid Event Id"} );
             }
             else{
-                const link=data.image;
+                const link=data.image.split("/")[5];
+                console.log(link);
+                // console.log(data.image.split("/"));
                 eventDb.findByIdAndDelete(id)
                 .then(response=>{
-                    fs.unlink(link,(err)=>{
+                    fs.unlink(`./public/uploads/${link}`,(err)=>{
                         if (err) throw err;
                         // if no error, file has been deleted successfully
                         console.log('File deleted!');
                     });
                     console.log("Successfully deleted");
+                    userDb.findOne({email:email})
+                        .then(data=>{
+                            if(!data){
+                                res.status(400).json( {message: "Invalid User Id"} );
+                            }
+                            else{
+                                userDb.updateOne({email:email},{$pull:{"organizedEventIds":id}})
+                                    .then(response=>{
+                                        res.status(200).json( {message: "Succesfully Deleted"} );
+                                    })
+                                    .catch(err=>{throw err});
+                            }
+                        })
+                        .catch(err=>{throw err});
                 })
             }
         })
