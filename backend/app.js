@@ -57,6 +57,7 @@ app.post("/login",(req,res,next)=>{
             else{
                 console.log(isValid);
                 const userData = {
+                name:user[0].name,
                 email: user[0].email,
                 ID: user[0]._id,
                 type:user[0].userType,
@@ -196,7 +197,7 @@ app.get("/upcomingEvents",(req,res,next)=>{
 
 app.get("/previousEvents",(req,res,next)=>{
     const nowDate=new Date();
-    eventDb.find({"toDateTime":{$lt:nowDate}})
+    eventDb.find({"status":"accepted",toDateTime:{$lt:nowDate}})
         .then(data=>{
             console.log(data);
             if(data.length!==0){
@@ -236,26 +237,52 @@ app.post("/bookEvent",upload.single("images"),(req,res)=>{
                     toDateTime:new Date(req.body.toDateTime),
                     image: url + '/public/uploads/' + req.file.filename,
                     organizerEmail:decode.email,
-                    organizerName:decode.name
+                    organizerName:decode.name,
+                    guestName:req.body.guestName,
+                    status:"pending",
+                    eventType:req.body.eventType
                 })
                 console.log(event);
                 event.save(event)
                     .then(response=>{
                         console.log("saved");
-                        userDb.update({email:decode.email},{$push:{"organizedEventIds":event._id}})
-                        .then(response=>{
-                            res.status(200).json({message:"Success"});
-                        })
-                            .catch(err=>{throw err})
+                        res.status(200).json({message:"Event Booking"});
                     })
                     .catch(err=>{
                         console.log(err);
+                        throw err;
                     })
 
             }
         
     })
 
+app.post("/getPendingEvents",(req,res,next)=>{
+    eventDb.find({"status":"pending"})
+        .then(data=>{
+            console.log(data);
+            if(data.length!==0){
+                res.status(200).json({message:"Success",data:data});
+            }
+            else{
+                res.status(200).json({message:"No Pending Events",data:data});
+            }
+        })
+        .catch(err=>{throw err});
+})
+
+
+app.post("/acceptEvent",(req,res,next)=>{
+    const {id,email}=req.body;
+    eventDb.update({id:id},{$set:{"status":"accepted"}})
+        .then(ress=>{
+            userDb.update({email:email},{$push:{"organizedEventIds":id}})
+                .then(ress=>{
+                    res.status(200).json({message:"Accepted"});
+                })
+        })
+        .catch(err=>{throw err})
+})
 
 
 app.post("/eventDelete",(req,res,next)=>{

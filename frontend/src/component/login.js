@@ -15,7 +15,7 @@ import {
 from 'mdb-react-ui-kit';
 import { useNavigate } from "react-router-dom";
 import authService from '../services/auth.service';
-// import bgImage from  '../assets/loginlogo.jpg';
+import bgImage from  '../assets/loginlogo.jpg';
 function Login (){
     const navigate=useNavigate();
     const [values,setValues]=useState({
@@ -101,7 +101,7 @@ function Login (){
                 <span className="border border-warning"></span>
 
                     <MDBCol md='6'>
-                    <MDBCardImage src={""} style={{height:450,width:20}} alt="login form" className='rounded-start w-100'/>
+                    <MDBCardImage src={bgImage} style={{height:450,width:20}} alt="login form" className='rounded-start w-100'/>
                     </MDBCol>
 
                     <MDBCol md='6'>
@@ -119,7 +119,7 @@ function Login (){
                     
 
                     <button className="mb-4 px-5 btn btn-primary" color='blue' size='lg' id="submit" onClick={submitDeatils}>Login</button>
-                    <p>{authMessage}</p>
+                    <p id="invalid_log">{authMessage}</p>
                     
                     
 

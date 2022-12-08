@@ -254,7 +254,7 @@ function Signup () {
         <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Gender' id='gender' type='text' size="lg" required value={values.gender} onChange={handleGenderInputChange} />
         <small>{genderError}</small>
 
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Mobile Number' id='number' type='number' size="lg" required value={values.phoneNumber} onChange={handlePhoneNumberInputChange}/>
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Mobile Number' id='number' type='number' size="lg" required  onChange={handlePhoneNumberInputChange}/>
         <small>{phonenumberError}</small>
 
         <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Department' id='department' type='text' size="lg" required value={values.department} onChange={handleDepartmentInputChange}/>
@@ -266,14 +266,14 @@ function Signup () {
         <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Password' id='password' type='password' size="lg" required value={values.password} onChange={handlePasswordInputChange}/>
         <small>{passwordError}</small>
         
-        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Semester' id='semester' type='numbe' size="lg"  required value={values.semester} onChange={handleSemesternumberInputChange}/>
+        <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Semester' id='semester' type='numbe' size="lg"  required  onChange={handleSemesternumberInputChange}/>
         <small>{semesterError}</small>
 
         <MDBInput wrapperClass='shadow p-3 mb-5 bg-body rounded' placeholder='Type' id='type' type='text' size="lg" required value={values.userType} onChange={handleUserTypeInputChange} />
         <small>{userTypeError}</small>
        
         <button className="mb-4 px-5 btn btn-primary" id="submit" size='lg' onClick={signUp}>REGISTER</button>
-        <small>{authError}</small>
+        <small id="auth-error">{authError}</small>
         
         
   

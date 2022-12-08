@@ -17,6 +17,7 @@ import Logout from './component/logout';
 import Signup from './component/signup';
 import EventRegistration from './component/eventRegistration';
 import Navigationbar from './component/navbar';
+import PendingEvents from './component/pendingEvents';
 
 // import "https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js";
 // import "./assets/js/vanilla-zoom.js";
@@ -50,6 +51,7 @@ render() {
           <Route path="/eventInfo/:id" element={<EventInfo />}></Route>
           <Route exact path="/dashboard" element={<Dashboard />}></Route>
           <Route exact path="/eventRegistration" element={<EventRegistration />}></Route>
+          <Route exact path="/pendingEvents" element={<PendingEvents />}></Route>
         </Routes>
       </div>
     

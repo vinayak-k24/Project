@@ -80,6 +80,14 @@ function AdminDashboard () {
       return (
         <div>
           <MDBRow>
+          <MDBCol>
+              <MDBCard>
+                <MDBCardBody>
+                  <MDBCardTitle>Pending Events</MDBCardTitle>
+                  <Link to={"/pendingEvents"}>Click Here</Link>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
             <MDBCol>
               <MDBCard>
                 <MDBCardBody>
