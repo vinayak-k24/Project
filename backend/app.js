@@ -48,35 +48,59 @@ app.post("/login",(req,res,next)=>{
             }
           else {
             
-            bcrypt.compare(password, user[0].password, (_err, result) => {
-
-              if (_err){
-                    const error=new Error("Authentication has failed");
-                    error.statusCode=401;
-                    throw error;
-                } 
-              else if (result) {
-                console.log(result);
+            const isValid=bcrypt.compareSync(password, user[0].password)
+            if(!isValid){
+                const error=new Error("Invalid Password");
+                error.statusCode=401;
+                throw error;
+            }
+            else{
+                console.log(isValid);
                 const userData = {
-                  email: user[0].email,
-                  ID: user[0]._id,
-                  type:user[0].userType,
-                  registerEvents:user[0].registeredEventsIds
+                email: user[0].email,
+                ID: user[0]._id,
+                type:user[0].userType,
+                registerEvents:user[0].registeredEventsIds
                 };
                 const token = jwt.sign(userData, "MONGO_SECRET", { expiresIn: "1hr" });
                 return res.status(200).json({
-                  message: "Authentication has been successful",
-                  token: token
+                message: "Authentication has been successful",
+                token: token
                 });
-              }
-              else{
-                console.log("in");
-                // res.status(400).json({message:"Invalid password"});
-                var error=new Error("Authentication has failed");
-                error.statusCode=401;
-                throw error;
-              }
-            });
+            }
+                
+            // bcrypt.compare(password, user[0].password, (_err, result) => {
+
+            //   if (_err){
+            //         const error=new Error("Authentication has failed");
+            //         error.statusCode=401;
+            //         throw error;
+            //     }
+            // else if(!result){
+            //         console.log("in");
+            //         const error=new Error("Invalid Password");
+            //         error.statusCode=401;
+            //         throw error;;
+            //     // const error=new Error("Authentication has failed");
+            //     // error.statusCode=401;
+            //     // throw error;
+            //     }
+            //   else {
+            //         console.log(result);
+            //     const userData = {
+            //       email: user[0].email,
+            //       ID: user[0]._id,
+            //       type:user[0].userType,
+            //       registerEvents:user[0].registeredEventsIds
+            //     };
+            //     const token = jwt.sign(userData, "MONGO_SECRET", { expiresIn: "1hr" });
+            //     return res.status(200).json({
+            //       message: "Authentication has been successful",
+            //       token: token
+            //     });
+            //   }
+              
+            // });
           }
         })
         .catch((err)=>{
@@ -158,7 +182,7 @@ app.post("/register",(req,res,next)=>{
 
 app.get("/upcomingEvents",(req,res,next)=>{
     const nowDate=new Date();
-    eventDb.find({"fromDateTime":{$gt:nowDate}})
+    eventDb.find({"status":"accepted","fromDateTime":{$gt:nowDate}})
         .then(data=>{
             console.log(data);
             if(data.length!==0){

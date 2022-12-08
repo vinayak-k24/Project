@@ -85,7 +85,7 @@ function UserDashboard () {
                 if(data.data.length>0){
                   
                   setUpcomingEventsFlag(true);
-                  setUpcomingEvents([...previousEvents,...data.data]);
+                  setUpcomingEvents([...upcomingEvents,...data.data]);
                 }
               }
               else{

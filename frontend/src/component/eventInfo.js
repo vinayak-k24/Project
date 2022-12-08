@@ -169,7 +169,7 @@ function EventInfo(){
                 {eventValues.upcomingFlag?
                 
                     <>
-                        <button>Edit</button>
+                        
                         <button onClick={deleteEvent}>Delete</button>
                     </>
                 :

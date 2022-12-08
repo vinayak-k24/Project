@@ -118,7 +118,7 @@ function Login (){
                     <span className="mb-4">{passwordError}</span>
                     
 
-                    <button className="mb-4 px-5 btn btn-primary" color='blue' size='lg' onClick={submitDeatils}>Login</button>
+                    <button className="mb-4 px-5 btn btn-primary" color='blue' size='lg' id="submit" onClick={submitDeatils}>Login</button>
                     <p>{authMessage}</p>
                     
                     
