@@ -78,7 +78,9 @@ function AdminDashboard () {
     },[])
       
       return (
+        
         <div>
+          
           <MDBRow>
           <MDBCol>
               <MDBCard>
@@ -108,7 +110,7 @@ function AdminDashboard () {
                         ))))
                     
                   :
-                        <MDBCardText>No Upcoming Events Registered</MDBCardText>
+                        <MDBCardText>No Upcoming Events</MDBCardText>
                                           
                   }
                 </MDBCardBody>
@@ -127,7 +129,7 @@ function AdminDashboard () {
 
                       :
                       
-                        <MDBCardText>No Previous Events Registered</MDBCardText>
+                        <MDBCardText>No Previous Events</MDBCardText>
                       
                   }
                 </MDBCardBody>

@@ -56,7 +56,7 @@ function Signup () {
             setNameError("Name length should be minimum 4 ");
         }
         else{
-            setNameError("");
+            setNameError(null);
         }
     }
     const handleEmailInputChange=(event)=>{
@@ -65,7 +65,7 @@ function Signup () {
             setEmailError("Invalid Email ID");
         }
         else{
-            setEmailError("");
+            setEmailError(null);
         }
     }
     const handlePasswordInputChange=(event)=>{
@@ -74,7 +74,7 @@ function Signup () {
             setPasswordError("Password length should be minimum 7");
         }
         else{
-            setPasswordError("");
+            setPasswordError(null);
         }
     }
     const handleDepartmentInputChange=(event)=>{
@@ -83,7 +83,7 @@ function Signup () {
             setDepartmentError("Department length should be minimum 4 ");
         }
         else{
-            setDepartmentError("");
+            setDepartmentError(null);
         }
     }
     const handleSemesternumberInputChange=(event)=>{
@@ -92,13 +92,13 @@ function Signup () {
             setSemesterError("Invalid Semester");
         }
         else{
-            setSemesterError("");
+            setSemesterError(null);
         }
     }
     const handleGenderInputChange=(event)=>{
         setValues(values=>({...values,gender:event.target.value}))
         if(event.target.value==="male" || event.target.value==="female"){
-            setGenderError("");
+            setGenderError(null);
         }
         else{
             setGenderError("Invalid Gender");
@@ -110,7 +110,7 @@ function Signup () {
             setUserTypeError("UserType length should be minimum 4 ");
         }
         else{
-            setUserTypeError("");
+            setUserTypeError(null);
         }
     }
     const handleUsnInputChange=(event)=>{
@@ -119,7 +119,7 @@ function Signup () {
             setUsnError("usn length should be minimum 4 ");
         }
         else{
-            setUsnError("");
+            setUsnError(null);
         }
     }
     const handlePhoneNumberInputChange=(event)=>{
@@ -128,7 +128,7 @@ function Signup () {
             setPhonenumberError("Number length should be minimum 10 ");
         }
         else{
-            setPhonenumberError("");
+            setPhonenumberError(null);
         }
     }
 
@@ -138,39 +138,39 @@ function Signup () {
             setNameError("Name length should be minimum 4 ");
         }
         else{
-            setNameError("");
+            setNameError(null);
         }
         
         if(!validator.isEmail(values.email)){
             setEmailError("Invalid Email ID");
         }
         else{
-            setEmailError("");
+            setEmailError(null);
         }
         
         if(values.password.length<7){
             setPasswordError("Password length should be minimum 7");
         }
         else{
-            setPasswordError("");
+            setPasswordError(null);
         }
         
         if(values.department.length<4){
             setDepartmentError("Department length should be minimum 4 ");
         }
         else{
-            setDepartmentError("");
+            setDepartmentError(null);
         }
         
         if(values.semester<0 || values.semester>8){
             setSemesterError("Invalid Semester");
         }
         else{
-            setSemesterError("");
+            setSemesterError(null);
         }
         
         if(values.gender==="male" || values.gender==="female"){
-            setGenderError("");
+            setGenderError(null);
         }
         else{
             setGenderError("Invalid Gender");
@@ -180,21 +180,21 @@ function Signup () {
             setUserTypeError("UserType length should be minimum 4 ");
         }
         else{
-            setUserTypeError("");
+            setUserTypeError(null);
         }
         
         if(values.usn.length<4){
             setUsnError("usn length should be minimum 4 ");
         }
         else{
-            setUsnError("");
+            setUsnError(null);
         }
         
         if(values.phoneNumber.toString().length<10){
             setPhonenumberError("Number length should be minimum 10 ");
         }
         else{
-            setPhonenumberError("");
+            setPhonenumberError(null);
         }
 
         if(!nameError && !emailError && !passwordError && !departmentError && !phonenumberError && !semesterError && !genderError && !userTypeError && !usnError){   
