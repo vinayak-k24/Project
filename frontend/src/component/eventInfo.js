@@ -95,6 +95,9 @@ function EventInfo(){
     },[]);
 
     const deleteEvent=()=>{
+        if(!authService.getCurrentUser()){
+            navigate("/login");
+        }
         fetch("http://localhost:8081/eventDelete",
             {
                 method:"POST",
@@ -113,6 +116,9 @@ function EventInfo(){
     }
 
     const registerEvent=()=>{
+        if(!authService.getCurrentUser()){
+            navigate("/login");
+        }
         console.log(authService.getCurrentUser().email);
         fetch("http://localhost:8081/registerEvent",{
             method:"POST",
@@ -128,6 +134,9 @@ function EventInfo(){
         .catch(err=>console.log(err));
     }
     const deRegisterEvent=()=>{
+        if(!authService.getCurrentUser()){
+            navigate("/login");
+        }
         console.log(authService.getCurrentUser().email);
         fetch("http://localhost:8081/deRegisterEvent",{
             method:"POST",
@@ -145,12 +154,12 @@ function EventInfo(){
     
     return(
         <div className='container'>
-            <h1>{eventValues.eventName}</h1>
+            <h1><marquee>{eventValues.eventName}</marquee></h1>
             <p>{eventValues.eventDescription}</p>
-            <h4>Organized By : {eventValues.organizerName}</h4>
-            <h1>Venue: {eventValues.venue}</h1>
-            <h2>Date: {eventValues.fromDateTime.getDate()===eventValues.toDateTime.getDate() ? `${eventValues.fromDateTime.getDate()}-${eventValues.fromDateTime.getMonth()}-${eventValues.fromDateTime.getFullYear()}` : `${eventValues.fromDateTime.getDate()}-${eventValues.fromDateTime.getMonth()}-${eventValues.fromDateTime.getFullYear()} To ${eventValues.toDateTime.getDate()}-${eventValues.toDateTime.getMonth()}-${eventValues.toDateTime.getFullYear()}`}</h2>
-            <h2>Timings: {eventValues.fromDateTime.getHours().toString().length!==2 ? "0"+eventValues.fromDateTime.getHours():eventValues.fromDateTime.getHours()}
+            <p>Organized By : {eventValues.organizerName}</p>
+            <p>Venue: {eventValues.venue}</p>
+            <p>Date: {eventValues.fromDateTime.getDate()===eventValues.toDateTime.getDate() ? `${eventValues.fromDateTime.getDate()}-${eventValues.fromDateTime.getMonth()}-${eventValues.fromDateTime.getFullYear()}` : `${eventValues.fromDateTime.getDate()}-${eventValues.fromDateTime.getMonth()}-${eventValues.fromDateTime.getFullYear()} To ${eventValues.toDateTime.getDate()}-${eventValues.toDateTime.getMonth()}-${eventValues.toDateTime.getFullYear()}`}</p>
+            <p>Timings: {eventValues.fromDateTime.getHours().toString().length!==2 ? "0"+eventValues.fromDateTime.getHours():eventValues.fromDateTime.getHours()}
                 :{eventValues.fromDateTime.getMinutes().toString().length!==2 ? "0"+eventValues.fromDateTime.getMinutes():eventValues.fromDateTime.getMinutes()}
                 
                 {eventValues.fromDateTime.getHours()>=12 ?"PM":"AM"} {"To "}  
@@ -160,8 +169,8 @@ function EventInfo(){
                 
                 {eventValues.toDateTime.getHours()>=12 ?"PM":"AM"} 
 
-                </h2>
-            <h1>No.of People Estimated: {eventValues.noOfPeopleEstimated}</h1>
+                </p>
+            <p>No.of People Estimated: {eventValues.noOfPeopleEstimated}</p>
 
             {eventValues.organizedFlag?
             
