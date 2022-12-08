@@ -276,7 +276,7 @@ app.post("/acceptEvent",(req,res,next)=>{
     const {id,email}=req.body;
     eventDb.update({id:id},{$set:{"status":"accepted"}})
         .then(ress=>{
-            userDb.update({email:email},{$push:{"organizedEventIds":id}})
+            userDb.updateOne({email:email},{$push:{"organizedEventIds":id}})
                 .then(ress=>{
                     res.status(200).json({message:"Accepted"});
                 })
