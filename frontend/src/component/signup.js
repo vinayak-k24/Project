@@ -199,7 +199,7 @@ function Signup () {
 
         if(!nameError && !emailError && !passwordError && !departmentError && !phonenumberError && !semesterError && !genderError && !userTypeError && !usnError){   
             console.log("hello"); 
-            fetch("http://localhost:8080/register",{
+            fetch("http://localhost:8081/register",{
                     method: 'POST',
                     body: JSON.stringify({values}),
                     headers: {

@@ -23,7 +23,7 @@ function EventInfo(){
 
     useEffect(()=>{
         console.log(id);
-        fetch('http://localhost:8080/eventInfo/'+id,{
+        fetch('http://localhost:8081/eventInfo/'+id,{
             method:"get",   
         }).then(res=>{
             return res.json();
@@ -66,7 +66,7 @@ function EventInfo(){
             else{
                 const currentUser=authService.getCurrentUser();
                 console.log(currentUser);
-                fetch("http://localhost:8080/registeredEvents",
+                fetch("http://localhost:8081/registeredEvents",
                 {
                     method:"POST",
                     body:JSON.stringify({email:currentUser.email}),
@@ -95,7 +95,7 @@ function EventInfo(){
     },[]);
 
     const deleteEvent=()=>{
-        fetch("http://localhost:8080/eventDelete",
+        fetch("http://localhost:8081/eventDelete",
             {
                 method:"POST",
                 body:JSON.stringify({id:eventValues.eventId,email:authService.getCurrentUser().email}),
@@ -114,7 +114,7 @@ function EventInfo(){
 
     const registerEvent=()=>{
         console.log(authService.getCurrentUser().email);
-        fetch("http://localhost:8080/registerEvent",{
+        fetch("http://localhost:8081/registerEvent",{
             method:"POST",
             body:JSON.stringify({eventId:id,email:authService.getCurrentUser().email}),
             headers: {
@@ -129,7 +129,7 @@ function EventInfo(){
     }
     const deRegisterEvent=()=>{
         console.log(authService.getCurrentUser().email);
-        fetch("http://localhost:8080/deRegisterEvent",{
+        fetch("http://localhost:8081/deRegisterEvent",{
             method:"POST",
             body:JSON.stringify({eventId:id,email:authService.getCurrentUser().email}),
             headers: {

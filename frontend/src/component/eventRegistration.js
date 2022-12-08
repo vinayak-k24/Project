@@ -259,7 +259,7 @@ function EventRegistration () {
                 formData.append('images',values.image);
                 formData.append("token",authService.getToken());
                 console.log(formData);
-                fetch("http://localhost:8080/bookEvent",{
+                fetch("http://localhost:8081/bookEvent",{
                     method: 'POST',
                     body: formData,
                     

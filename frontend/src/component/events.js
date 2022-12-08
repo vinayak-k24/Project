@@ -15,7 +15,7 @@ function Events () {
         setUpcomingEvents([]);
         setPreviousEvents([]);
         console.log("hello");
-        fetch("http://localhost:8080/upcomingEvents",{
+        fetch("http://localhost:8081/upcomingEvents",{
             method:"get"
         }).then(res=>{
             return res.json();
@@ -33,7 +33,7 @@ function Events () {
         })
         .catch(err=>console.log(err));
 
-        fetch("http://localhost:8080/previousEvents",{
+        fetch("http://localhost:8081/previousEvents",{
             method:"get"
         }).then(res=>{
             return res.json();

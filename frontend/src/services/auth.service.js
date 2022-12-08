@@ -1,6 +1,6 @@
 import { decodeToken, isExpired } from "react-jwt";
 
-const API_URL = "http://localhost:8080/";
+const API_URL = "http://localhost:8081/";
 
 class AuthService {
   login(email, password) {

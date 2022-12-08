@@ -41,7 +41,7 @@ function OrganizerDashboard () {
       setPreviousEventsFlag(false);
       setUpcomingEvents([]);
       setPreviousEvents([]);
-      fetch("http://localhost:8080/getUserDetails",{
+      fetch("http://localhost:8081/getUserDetails",{
         method:"POST",
         body:JSON.stringify({user:authService.getCurrentUser()}),
         headers: {
@@ -70,7 +70,7 @@ function OrganizerDashboard () {
           // console.log(data.user.registeredEventIds);
 
 
-          fetch("http://localhost:8080/upcomingEvents",{
+          fetch("http://localhost:8081/upcomingEvents",{
             method:"get"
           }).then(res=>{
             return res.json();
@@ -93,7 +93,7 @@ function OrganizerDashboard () {
               })
               .catch(err=>console.log(err));
               
-              fetch("http://localhost:8080/previousEvents",{
+              fetch("http://localhost:8081/previousEvents",{
                 method:"get"
               }).then(res=>{
                 return res.json();
