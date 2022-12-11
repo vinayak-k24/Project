@@ -5,7 +5,7 @@ pipeline {
             steps {
                 // bat "rmdir  /s /q Project"
                 bat "git clone https://github.com/swaroop-2021/Project.git"
-                bat "mvn clean Project"
+                bat "mvn clean --file *.pom Project"
             }
         }
         stage('install') {
@@ -25,3 +25,4 @@ pipeline {
         }
     }
 }
+//mvn clean --file *.pom
